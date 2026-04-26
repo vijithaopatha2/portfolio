@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #3b82f6; /* blue-500 */
+  --color-secondary: #8b5cf6; /* violet-500 */
+  --color-dark: #0f172a; /* slate-900 */
+  --color-darker: #020617; /* slate-950 */
+  --color-light: #f8fafc; /* slate-50 */
+}
+
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans antialiased overflow-x-hidden transition-colors duration-300;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
