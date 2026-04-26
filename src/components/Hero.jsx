@@ -28,11 +28,9 @@ const Hero = () => {
           <div className="h-16 sm:h-20 flex items-center justify-center">
             <TypeAnimation
               sequence={[
-                'Full Stack Developer',
-                2000,
-                'MERN Stack Specialist',
-                2000,
                 'UCSC Undergraduate',
+                2000,
+                'Full Stack Developer',
                 2000,
               ]}
               wrapper="h2"
@@ -41,7 +39,7 @@ const Hero = () => {
               repeat={Infinity}
             />
           </div>
-          
+
           <p className="text-slate-600 dark:text-slate-400 text-lg sm:text-xl max-w-2xl mx-auto mb-10 mt-4 leading-relaxed transition-colors">
             {description}
           </p>
@@ -56,7 +54,7 @@ const Hero = () => {
             >
               View Projects <ArrowRight size={18} />
             </Link>
-            
+
             <a
               href={resumeLink}
               target="_blank"
@@ -70,7 +68,7 @@ const Hero = () => {
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div 
+      <motion.div
         className="absolute bottom-10 left-1/2 -translate-x-1/2"
         animate={{ y: [0, 10, 0] }}
         transition={{ repeat: Infinity, duration: 1.5 }}
