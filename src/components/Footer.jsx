@@ -10,9 +10,6 @@ const Footer = () => {
         <p className="text-slate-600 dark:text-slate-500 text-sm transition-colors">
           &copy; {currentYear} {name}. All rights reserved.
         </p>
-        <p className="text-slate-500 dark:text-slate-600 text-xs mt-2 transition-colors">
-          Designed & Built with React & Tailwind CSS
-        </p>
       </div>
     </footer>
   );
