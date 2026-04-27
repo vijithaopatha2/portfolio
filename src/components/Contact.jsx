@@ -1,13 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { portfolioData } from '../data/portfolioData';
-import { Mail, Send } from 'lucide-react';
+import { CheckCircle2, Mail, Send, XCircle, X } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 const Contact = () => {
   const { email, github, linkedin } = portfolioData.contact;
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [alert, setAlert] = useState(null);
+
+  useEffect(() => {
+    if (!alert) return undefined;
+
+    const timer = window.setTimeout(() => {
+      setAlert(null);
+    }, 4000);
+
+    return () => window.clearTimeout(timer);
+  }, [alert]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -38,14 +49,26 @@ const Contact = () => {
       const result = await response.json();
 
       if (result.success) {
-        alert("Message sent successfully!");
+        setAlert({
+          type: 'success',
+          title: 'Message sent',
+          message: 'Thanks for reaching out. I will get back to you soon.',
+        });
         setFormData({ name: '', email: '', message: '' });
       } else {
-        alert("Something went wrong. Please try again.");
+        setAlert({
+          type: 'error',
+          title: 'Message not sent',
+          message: 'Something went wrong. Please try again.',
+        });
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Something went wrong. Please try again.");
+      setAlert({
+        type: 'error',
+        title: 'Message not sent',
+        message: 'Something went wrong. Please try again.',
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -62,11 +85,42 @@ const Contact = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 transition-colors">Get In Touch</h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-violet-500 mx-auto rounded-full"></div>
+          <div className="w-20 h-1 bg-linear-to-r from-blue-500 to-violet-500 mx-auto rounded-full"></div>
           <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mt-6 transition-colors">
             Have a question or want to work together? Leave a message and I'll get back to you as soon as possible.
           </p>
         </motion.div>
+
+        {alert && (
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 24, scale: 0.96 }}
+            transition={{ duration: 0.25 }}
+            className="fixed bottom-6 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2"
+          >
+            <div className={`relative overflow-hidden rounded-2xl border px-4 py-4 shadow-2xl backdrop-blur-xl ${alert.type === 'success' ? 'border-emerald-400/30 bg-slate-950/90 text-white' : 'border-rose-400/30 bg-slate-950/90 text-white'}`}>
+              <div className={`absolute inset-x-0 top-0 h-1 ${alert.type === 'success' ? 'bg-linear-to-r from-emerald-400 to-cyan-400' : 'bg-linear-to-r from-rose-400 to-orange-400'}`}></div>
+              <div className="flex items-start gap-3 pr-8">
+                <div className={`mt-0.5 flex h-11 w-11 items-center justify-center rounded-full ${alert.type === 'success' ? 'bg-emerald-500/15 text-emerald-300' : 'bg-rose-500/15 text-rose-300'}`}>
+                  {alert.type === 'success' ? <CheckCircle2 size={22} /> : <XCircle size={22} />}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-base font-semibold text-white">{alert.title}</p>
+                  <p className="mt-1 text-sm leading-6 text-slate-300">{alert.message}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setAlert(null)}
+                  className="absolute right-3 top-3 rounded-full p-1 text-slate-400 transition-colors hover:bg-white/10 hover:text-white"
+                  aria-label="Dismiss alert"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
 
         <div className="grid md:grid-cols-2 gap-12 lg:gap-20">
           <motion.div
@@ -159,7 +213,7 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-4 bg-gradient-to-r from-blue-500 to-violet-600 hover:from-blue-600 hover:to-violet-700 disabled:opacity-70 text-white rounded-xl font-medium transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2"
+                className="w-full py-4 bg-linear-to-r from-blue-500 to-violet-600 hover:from-blue-600 hover:to-violet-700 disabled:opacity-70 text-white rounded-xl font-medium transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2"
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'} <Send size={18} />
               </button>
