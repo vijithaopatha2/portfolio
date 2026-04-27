@@ -1,3 +1,5 @@
+import { image } from "framer-motion/client";
+
 export const portfolioData = {
   hero: {
     name: "O.V. Vijitha",
@@ -36,18 +38,20 @@ export const portfolioData = {
     },
     {
       id: 2,
-      title: "E-Commerce Platform",
-      description: "A modern e-commerce platform with product filtering, shopping cart functionality, and Stripe integration.",
-      tech: ["React", "Node.js", "Express", "MongoDB", "Redux"],
-      github: "#",
+      title: "Vehicle Services and Marketplace Platform",
+      image: "/projects/autoconnect.png",
+      description: "Built a full-stack vehicle services platform with listings, bookings, insurance, payments, and subscriptions, powered by a modular Node.js/Express API and a React frontend.",
+      tech: ["Node.js", "Express.js", "MongoDB", "React", "Vite", "REST APIs"],
+      github: "https://github.com/Dark-Zeus/auto-connect.git",
       live: "#"
     },
     {
       id: 3,
-      title: "Task Management System",
-      description: "A collaborative task management tool with real-time updates and drag-and-drop Kanban boards.",
-      tech: ["React", "Firebase", "Tailwind CSS", "Framer Motion"],
-      github: "#",
+      title: "MERN Hotel Reservation System",
+      image: "/projects/hotelbooking.png",
+      description: "MERN-based hotel booking web app with authentication, room reservations, and an admin dashboard for managing rooms and bookings.",
+      tech: ["MongoDB", "Express.js", "React", "Node.js","Stripe Payments", "Nodemailer"],
+      github: "https://github.com/vijithaopatha2/hotel-reservation-system-mern.git",
       live: "#"
     }
   ],
