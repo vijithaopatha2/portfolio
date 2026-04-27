@@ -7,17 +7,55 @@ import { FaGithub, FaLinkedin } from 'react-icons/fa';
 const Contact = () => {
   const { email, github, linkedin } = portfolioData.contact;
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Placeholder for actual form submission logic
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! (This is a UI demo)');
-    setFormData({ name: '', email: '', message: '' });
+    setIsSubmitting(true);
+
+    // Web3Forms configuration
+    // IMPORTANT: Replace the access_key below with your own from https://web3forms.com/
+    const accessKey = "YOUR_ACCESS_KEY_HERE";
+
+    if (accessKey === "YOUR_ACCESS_KEY_HERE") {
+      alert("Please configure your Web3Forms access key in Contact.jsx to enable form submission.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert("Message sent successfully!");
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -55,7 +93,7 @@ const Contact = () => {
                   <p className="text-lg text-slate-900 dark:text-slate-300 transition-colors">{email}</p>
                 </div>
               </a>
-              
+
               <a href={github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors group">
                 <div className="w-12 h-12 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-center group-hover:border-slate-400 dark:group-hover:border-slate-500 transition-colors shadow-sm dark:shadow-none">
                   <FaGithub size={20} />
@@ -65,7 +103,7 @@ const Contact = () => {
                   <p className="text-lg text-slate-900 dark:text-slate-300 transition-colors">View Profile</p>
                 </div>
               </a>
-              
+
               <a href={linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-500 transition-colors group">
                 <div className="w-12 h-12 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-center group-hover:border-blue-500 transition-colors shadow-sm dark:shadow-none">
                   <FaLinkedin size={20} />
@@ -127,9 +165,10 @@ const Contact = () => {
               </div>
               <button
                 type="submit"
-                className="w-full py-4 bg-gradient-to-r from-blue-500 to-violet-600 hover:from-blue-600 hover:to-violet-700 text-white rounded-xl font-medium transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className="w-full py-4 bg-gradient-to-r from-blue-500 to-violet-600 hover:from-blue-600 hover:to-violet-700 disabled:opacity-70 text-white rounded-xl font-medium transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2"
               >
-                Send Message <Send size={18} />
+                {isSubmitting ? 'Sending...' : 'Send Message'} <Send size={18} />
               </button>
             </form>
           </motion.div>
