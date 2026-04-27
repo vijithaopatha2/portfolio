@@ -18,14 +18,7 @@ const Contact = () => {
     setIsSubmitting(true);
 
     // Web3Forms configuration
-    // IMPORTANT: Replace the access_key below with your own from https://web3forms.com/
-    const accessKey = "YOUR_ACCESS_KEY_HERE";
-
-    if (accessKey === "YOUR_ACCESS_KEY_HERE") {
-      alert("Please configure your Web3Forms access key in Contact.jsx to enable form submission.");
-      setIsSubmitting(false);
-      return;
-    }
+    const accessKey = "21e46c99-f9c5-44af-91a7-bfbb77550e8f";
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
